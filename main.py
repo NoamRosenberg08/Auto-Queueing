@@ -19,6 +19,8 @@ def grab_screenshot(screenshooter: MSSBase, region: Dict = None) -> np.ndarray:
         screenshot = screenshooter.grab(region)
     return np.array(screenshot)
 
+def get_results_from_image(model, path: str, confidence: float = 80, overlap: float = 20):
+    return model.predict(path, confidence=confidence, overlap=overlap)
 
 
 config = load_json('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\config.json')
@@ -36,13 +38,12 @@ region = {
     "width": 70,
     "height": 50
 }
-
-img = grab_screenshot(screenshooter=screenshooter, region=region)
-cv2.imwrite("current_screen.png", img)
+#
+# img = grab_screenshot(screenshooter=screenshooter, region=region)
+# cv2.imwrite("current_screen.png", img)
 img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
-results = model.predict('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png', confidence=80, overlap=30)
-print(results)
+print(get_results_from_image(model,'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png'))
 img.show()
 
 
