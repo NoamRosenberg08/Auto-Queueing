@@ -2,11 +2,14 @@ from typing import Dict
 import cv2
 import mss
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 from mss.base import MSSBase
 import json
+import roboflow
+from roboflow import Project
 
-def load_credentials_json(path: str):
+
+def load_json(path: str) -> Dict:
     return json.load(open(path, 'r'))
 
 def grab_screenshot(screenshooter: MSSBase, region: Dict = None) -> np.ndarray:
@@ -15,6 +18,14 @@ def grab_screenshot(screenshooter: MSSBase, region: Dict = None) -> np.ndarray:
     else:
         screenshot = screenshooter.grab(region)
     return np.array(screenshot)
+
+
+
+config = load_json('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\config.json')
+roboflow_api = roboflow.Roboflow(api_key=config['roboflow']['api_key'])
+
+project: Project = roboflow_api.workspace().project('timedetectionv2')
+model = project.version(4).model
 
 
 screenshooter = mss.mss()
@@ -26,11 +37,25 @@ region = {
     "height": 50
 }
 
-img = grab_screenshot(screenshooter=screenshooter, region=region)
-cv2.imwrite("current_screen.png", img)
+# img = grab_screenshot(screenshooter=screenshooter, region=region)
+# cv2.imwrite("current_screen.png", img)
 img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
-print(load_credentials_json('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\config.json')['api_key'])
-
-
+results = model.predict('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png', confidence=80, overlap=30)
+print(results)
 img.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
