@@ -37,8 +37,8 @@ region = {
     "height": 50
 }
 
-# img = grab_screenshot(screenshooter=screenshooter, region=region)
-# cv2.imwrite("current_screen.png", img)
+img = grab_screenshot(screenshooter=screenshooter, region=region)
+cv2.imwrite("current_screen.png", img)
 img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
 results = model.predict('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png', confidence=80, overlap=30)
