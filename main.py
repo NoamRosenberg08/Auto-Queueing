@@ -26,4 +26,5 @@ region = {
 img = grab_screenshot(screenshooter=screenshooter, region=region)
 cv2.imwrite("current_screen.png", img)
 img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
+
 img.show()
