@@ -47,7 +47,7 @@ config = load_json('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\config.j
 roboflow_api = roboflow.Roboflow(api_key=config['roboflow']['api_key'])
 
 project: Project = roboflow_api.workspace().project('timedetectionv2')
-model = project.version(4).model
+model = project.version(5).model
 
 
 screenshooter = mss.mss()
@@ -72,15 +72,9 @@ while True:
     cv2.imwrite("current_screen.png", cv2img)
     img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
-    result: List[Dict] = get_results_from_image(model,
-                                                'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
+    result: List[Dict] = get_results_from_image(model, 'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
     numbered_results: List[ResultNumber] = results_to_result_numbers(result)
 
     time = convert_numbered_to_time_in_seconds(sort_numbered_results_list_by_x_value(numbered_results))
-    if time == -1:
-        cv2.imwrite("dataset" + str(i) +".png",cv2img)
-        i += 1
     print(time)
-#
-# print(numbered_results)
-# print(sort_numbered_results_list_by_x_value(numbered_results))
+
