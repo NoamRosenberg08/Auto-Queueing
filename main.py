@@ -1,4 +1,5 @@
-from typing import Dict, Tuple
+from time import sleep
+
 import cv2
 import mss
 import numpy as np
@@ -22,7 +23,7 @@ def grab_screenshot(screenshooter: MSSBase, region: Dict = None) -> np.ndarray:
         screenshot = screenshooter.grab(region)
     return np.array(screenshot)
 
-def get_results_from_image(model, path: str, confidence: float = 80, overlap: float = 20):
+def get_results_from_image(model, path: str, confidence: float = 90, overlap: float = 20):
     return model.predict(path, confidence=confidence, overlap=overlap)
 
 def results_to_result_numbers(results : List[ResultNumber]) -> List[ResultNumber]:
@@ -54,33 +55,32 @@ screenshooter = mss.mss()
 region = {
     "top": 270,
     "left": 1250,
-    "width": 70,
-    "height": 50
+    "width": 65,
+    "height": 40
 }
 
-# img = grab_screenshot(screenshooter=screenshooter, region=region)
-# cv2.imwrite("current_screen.png", img)
+img = grab_screenshot(screenshooter=screenshooter, region=region)
+cv2.imwrite("current_screen.png", img)
 img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
 result: List[Dict] = get_results_from_image(model,'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
 numbered_results : List[ResultNumber] = results_to_result_numbers(result)
 
-print(numbered_results)
-print(sort_numbered_results_list_by_x_value(numbered_results))
-print(convert_numbered_to_time_in_seconds(sort_numbered_results_list_by_x_value(numbered_results)))
-img.show()
+i = 0
+while True:
+    cv2img = grab_screenshot(screenshooter=screenshooter, region=region)
+    cv2.imwrite("current_screen.png", cv2img)
+    img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
+    result: List[Dict] = get_results_from_image(model,
+                                                'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
+    numbered_results: List[ResultNumber] = results_to_result_numbers(result)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    time = convert_numbered_to_time_in_seconds(sort_numbered_results_list_by_x_value(numbered_results))
+    if time == -1:
+        cv2.imwrite("dataset" + str(i) +".png",cv2img)
+        i += 1
+    print(time)
+#
+# print(numbered_results)
+# print(sort_numbered_results_list_by_x_value(numbered_results))
