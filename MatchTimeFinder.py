@@ -15,10 +15,6 @@ from roboflow.models.inference import InferenceModel
 import ResultNumber
 from ScreenShotUtils import grab_screenshot
 
-
-def load_json(path: str) -> Dict:
-    return json.load(open(path, 'r'))
-
 def get_results_from_image(model, path: str, confidence: float = 90, overlap: float = 20):
     return model.predict(path, confidence=confidence, overlap=overlap)
 
@@ -44,9 +40,6 @@ REGION = {
     "width": 65,
     "height": 40
 }
-
-result: List[Dict] = get_results_from_image(model,'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
-numbered_results : List[ResultNumber] = results_to_result_numbers(result)
 
 # while True:
 #     img: Image = grab_screenshot(screenshooter=screenshooter, region=region)

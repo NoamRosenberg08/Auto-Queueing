@@ -40,9 +40,12 @@ def convert_detection_numbered_results(detections: List[Dict]) -> List[ResultNum
 def convert_result_number_list_to_number(resulted_number_list: List[ResultNumber]) -> int:
     number: int = 0
     counter: int = 0
+    resulted_number_list.reverse()
     for resulted_number in resulted_number_list:
-        number += int(resulted_number.number * (10 ** counter))
-
+        if resulted_number.number == 0:
+            number *= 10
+        number += int(int(resulted_number.number) * int(10 ** int(counter)))
+        counter += 1
     return number
 
 def sort_numbered_results_list_by_x_value(numbered_results : List[ResultNumber]) -> List[ResultNumber]:
@@ -56,6 +59,8 @@ class MatchNumberFinder:
         self.model : InferenceModel = self.project.version(model_version).model
         self.screenshooter = screenshooter
 
+        print(self.model.id)
+
     def get_match_number(self):
         enhance_image(screenshot_match_number(self.screenshooter, REGION)).save("current_match_e.png")
         detection = self.detect_numbers('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_match_e.png')
@@ -64,6 +69,7 @@ class MatchNumberFinder:
 
     def detect_numbers(self, image_path: str) -> List[Dict]:
         return self.model.predict(image_path, confidence=50, overlap=20)
+
 
 
 
