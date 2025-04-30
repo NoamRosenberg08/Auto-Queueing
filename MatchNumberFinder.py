@@ -61,6 +61,7 @@ class MatchNumberFinder:
         detection = self.detect_numbers('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_match_e.png')
         numbered_result_list : List[ResultNumber] = convert_detection_numbered_results(detection)
         return convert_result_number_list_to_number(sort_numbered_results_list_by_x_value(numbered_result_list))
+
     def detect_numbers(self, image_path: str) -> List[Dict]:
         return self.model.predict(image_path, confidence=50, overlap=20)
 

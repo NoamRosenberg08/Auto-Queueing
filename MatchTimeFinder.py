@@ -10,6 +10,8 @@ import roboflow
 from roboflow import Project
 from typing import List, Dict, Tuple
 
+from roboflow.models.inference import InferenceModel
+
 import ResultNumber
 from ScreenShotUtils import grab_screenshot
 
@@ -36,36 +38,34 @@ def convert_numbered_to_time_in_seconds(numbered_results: List[ResultNumber]) ->
 
     return (numbered_results[0].number * 60) + (numbered_results[1].number * 10) + numbered_results[2].number
 
-
-config = load_json('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\config.json')
-roboflow_api = roboflow.Roboflow(api_key=config['roboflow']['api_key'])
-
-project: Project = roboflow_api.workspace().project('timedetectionv2')
-model = project.version(5).model
-
-
-screenshooter = mss.mss()
-
-region = {
+REGION = {
     "top": 270,
     "left": 1250,
     "width": 65,
     "height": 40
 }
 
-# img:  = grab_screenshot(screenshooter=screenshooter, region=region)
-# cv2.imwrite("current_screen.png", img)
-# img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
-
 result: List[Dict] = get_results_from_image(model,'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
 numbered_results : List[ResultNumber] = results_to_result_numbers(result)
 
-while True:
-    img: Image = grab_screenshot(screenshooter=screenshooter, region=region)
-    img.save("current_screen.png")
-    result: List[Dict] = get_results_from_image(model, 'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
-    numbered_results: List[ResultNumber] = results_to_result_numbers(result)
+# while True:
+#     img: Image = grab_screenshot(screenshooter=screenshooter, region=region)
+#     img.save("current_screen.png")
+#     result: List[Dict] = get_results_from_image(model, 'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
+#     numbered_results: List[ResultNumber] = results_to_result_numbers(result)
+#
+#     time = convert_numbered_to_time_in_seconds(sort_numbered_results_list_by_x_value(numbered_results))
+#     print(time)
 
-    time = convert_numbered_to_time_in_seconds(sort_numbered_results_list_by_x_value(numbered_results))
-    print(time)
+class MatchTimeFinder:
+    def __init__(self, roboflow_api: roboflow.Roboflow, project_name: str, model_version: int, screenshooter: MSSBase):
+        self.project: Project = roboflow_api.workspace().project(project_name)
+        self.model : InferenceModel = self.project.version(model_version).model
+        self.screenshooter = screenshooter
 
+    def get_match_time(self):
+        grab_screenshot(screenshooter=self.screenshooter, region=REGION).save("current_screen.png")
+        result: List[Dict] = get_results_from_image(self.model, 'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
+        numbered_results: List[ResultNumber] = results_to_result_numbers(result)
+
+        return convert_numbered_to_time_in_seconds(sort_numbered_results_list_by_x_value(numbered_results))
