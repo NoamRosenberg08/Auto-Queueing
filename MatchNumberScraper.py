@@ -3,7 +3,7 @@ from typing import Dict
 
 import cv2
 import mss
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter,ImageEnhance
 import numpy
 from numpy import ndarray
 from mss.base import MSSBase
@@ -11,10 +11,11 @@ from mss.base import MSSBase
 import ScreenShotUtils
 import pyautogui
 
-THRESHOLD: int = 80
+THRESHOLD: int = 60
 
 REGION = {
     "top": 255,
+
     "left": 1280,
     "width": 50,
     "height": 27
@@ -25,9 +26,15 @@ REGION = {
 # image_array: ndarray = numpy.asarray(image)
 
 
-def convert_image_to_binary(image_as_array: ndarray):
-    return image_as_array > THRESHOLD
+def convert_image_to_binary(image: Image) -> Image:
+    return Image.fromarray(numpy.asarray(image) > THRESHOLD)
 
+def resize_image(image: Image ,times: float=1) -> Image:
+    return image.resize((image.width * times, image.height * times), Image.LANCZOS)
+
+def enhance_image_contrast(image: Image, enhancement_factor: float):
+    enhancer = ImageEnhance.Contrast(image)
+    return enhancer.enhance(enhancement_factor)
 
 def screenshot_match_number(screenshooter: MSSBase):
     return ScreenShotUtils.grab_screenshot(screenshooter, REGION)
@@ -50,3 +57,15 @@ def convert_all_match_numbers_images_to_grayscale():
         binary_image : ndarray = convert_image_to_binary(numpy.asarray(grayscale_image))
         Image.fromarray(binary_image).save(f"binary_match_number{i}.png")
 
+
+def enhance_image(image: Image) -> Image:
+    return enhance_image_contrast(resize_image(image.convert('L'), 30),3)
+
+def enhance_images():
+    for i in range(75):
+        image: Image = Image.open(f"C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\match_number{i}.png").convert('L')
+        enhance_image(image).save(f"enhanced_image{i}.png")
+
+
+
+# Image.fromarray(convert_image_to_binary(numpy.asarray(Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\Screenshot 2025-04-30 140137.png").convert('L')))).save("grayscale.png")
