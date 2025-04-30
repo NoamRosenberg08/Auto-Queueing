@@ -25,9 +25,18 @@ match_time: float = 0
 
 app = Flask(__name__)
 
-@app.route("/")
-def get():
+@app.route("/match")
+def get_match_details():
     return jsonify({"MatchTime": match_time, "MatchNumber": match_number})
+
+@app.route("/match/time")
+def get_match_time():
+    return jsonify({"MatchTime": match_time})
+
+@app.route("/match/number")
+def get_match_number():
+    return jsonify({"MatchNumber": match_number})
+
 
 def update_match_info():
     global match_time, match_number
