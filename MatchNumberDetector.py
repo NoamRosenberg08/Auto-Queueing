@@ -50,4 +50,3 @@ def convert_all_match_numbers_images_to_grayscale():
         binary_image : ndarray = convert_image_to_binary(numpy.asarray(grayscale_image))
         Image.fromarray(binary_image).save(f"binary_match_number{i}.png")
 
-convert_all_match_numbers_images_to_grayscale()
