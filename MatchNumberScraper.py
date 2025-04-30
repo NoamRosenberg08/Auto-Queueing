@@ -32,7 +32,7 @@ def convert_image_to_binary(image: Image) -> Image:
 def resize_image(image: Image ,times: float=1) -> Image:
     return image.resize((image.width * times, image.height * times), Image.LANCZOS)
 
-def enhance_image_contrast(image: Image, enhancement_factor: float):
+def enhance_image_contrast(image: Image, enhancement_factor: float) -> Image:
     enhancer = ImageEnhance.Contrast(image)
     return enhancer.enhance(enhancement_factor)
 
