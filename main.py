@@ -11,17 +11,11 @@ from roboflow import Project
 from typing import List, Dict, Tuple
 
 import ResultNumber
+from ScreenShotUtils import grab_screenshot
 
 
 def load_json(path: str) -> Dict:
     return json.load(open(path, 'r'))
-
-def grab_screenshot(screenshooter: MSSBase, region: Dict = None) -> np.ndarray:
-    if region is None:
-        screenshot = screenshooter.grab(screenshooter.monitors[1])
-    else:
-        screenshot = screenshooter.grab(region)
-    return np.array(screenshot)
 
 def get_results_from_image(model, path: str, confidence: float = 90, overlap: float = 20):
     return model.predict(path, confidence=confidence, overlap=overlap)
