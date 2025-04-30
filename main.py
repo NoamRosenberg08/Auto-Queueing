@@ -11,17 +11,11 @@ from roboflow import Project
 from typing import List, Dict, Tuple
 
 import ResultNumber
+from ScreenShotUtils import grab_screenshot
 
 
 def load_json(path: str) -> Dict:
     return json.load(open(path, 'r'))
-
-def grab_screenshot(screenshooter: MSSBase, region: Dict = None) -> np.ndarray:
-    if region is None:
-        screenshot = screenshooter.grab(screenshooter.monitors[1])
-    else:
-        screenshot = screenshooter.grab(region)
-    return np.array(screenshot)
 
 def get_results_from_image(model, path: str, confidence: float = 90, overlap: float = 20):
     return model.predict(path, confidence=confidence, overlap=overlap)
@@ -59,18 +53,16 @@ region = {
     "height": 40
 }
 
-img = grab_screenshot(screenshooter=screenshooter, region=region)
-cv2.imwrite("current_screen.png", img)
-img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
+# img:  = grab_screenshot(screenshooter=screenshooter, region=region)
+# cv2.imwrite("current_screen.png", img)
+# img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
 
 result: List[Dict] = get_results_from_image(model,'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
 numbered_results : List[ResultNumber] = results_to_result_numbers(result)
 
 while True:
-    cv2img = grab_screenshot(screenshooter=screenshooter, region=region)
-    cv2.imwrite("current_screen.png", cv2img)
-    img = Image.open("C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png")
-
+    img: Image = grab_screenshot(screenshooter=screenshooter, region=region)
+    img.save("current_screen.png")
     result: List[Dict] = get_results_from_image(model, 'C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_screen.png')
     numbered_results: List[ResultNumber] = results_to_result_numbers(result)
 
