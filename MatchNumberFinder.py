@@ -27,11 +27,17 @@ def screenshot_match_number(screenshooter: MSSBase, region: Dict) -> Image:
 def enhance_image(image: Image) -> Image:
     return ImageUtils.enhance_image_contrast(ImageUtils.resize_image(image.convert('L'), SCALING_FACTOR),ENHANCEMENT_FACTOR)
 
-def periodic(screenshooter: MSSBase):
-    enhance_image(screenshot_match_number(screenshooter, REGION)).show()
+
+class MatchNumberFinder:
+
+    def __init__(self, api_key: str,workspace: str,project,  model_version: int):
+
+        pass
+
+    def periodic(screenshooter: MSSBase):
+        enhance_image(screenshot_match_number(screenshooter, REGION)).show()
 
 
-periodic(mss.mss())
 
 
 
