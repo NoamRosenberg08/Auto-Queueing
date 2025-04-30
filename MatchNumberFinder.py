@@ -45,6 +45,10 @@ def convert_result_number_list_to_number(resulted_number_list: List[ResultNumber
 
     return number
 
+def sort_numbered_results_list_by_x_value(numbered_results : List[ResultNumber]) -> List[ResultNumber]:
+    return sorted(numbered_results, key=lambda result: result.x)
+
+
 class MatchNumberFinder:
 
     def __init__(self,  roboflow_api: Roboflow, project_name: str,  model_version: int, screenshooter: MSSBase):
@@ -56,9 +60,7 @@ class MatchNumberFinder:
         enhance_image(screenshot_match_number(self.screenshooter, REGION)).save("current_match_e.png")
         detection = self.detect_numbers('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_match_e.png')
         numbered_result_list : List[ResultNumber] = convert_detection_numbered_results(detection)
-        print(numbered_result_list)
-        print(convert_result_number_list_to_number(numbered_result_list))
-
+        return convert_result_number_list_to_number(sort_numbered_results_list_by_x_value(numbered_result_list))
     def detect_numbers(self, image_path: str) -> List[Dict]:
         return self.model.predict(image_path, confidence=50, overlap=20)
 
