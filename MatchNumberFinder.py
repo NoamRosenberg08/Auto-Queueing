@@ -1,13 +1,15 @@
-from typing import Dict
+import json
+from typing import Dict, List
 
-import mss
+import roboflow
+from roboflow import Project, Roboflow
+
 from PIL import Image
 from mss.base import MSSBase
-from urllib3.fields import RequestField
+from roboflow.models.inference import InferenceModel
 
 import ImageUtils
 import ScreenShotUtils
-
 
 REGION = {
     "top": 255,
@@ -30,16 +32,23 @@ def enhance_image(image: Image) -> Image:
 
 class MatchNumberFinder:
 
-    def __init__(self, api_key: str,workspace: str,project,  model_version: int):
+    def __init__(self,  roboflow_api: Roboflow, project_name: str,  model_version: int):
+        self.project: Project = roboflow_api.workspace().project(project_name)
+        self.model : InferenceModel = self.project.version(model_version).model
 
-        pass
-
-    def periodic(screenshooter: MSSBase):
+    def periodic(self, screenshooter: MSSBase):
         enhance_image(screenshot_match_number(screenshooter, REGION)).show()
 
+    def detect_numbers(self, image_path: str) -> List[Dict]:
+        return self.model.predict(image_path, confidence=50, overlap=20)
 
 
 
+config = json.load(open('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\config.json','r'))
+roboflow_api = roboflow.Roboflow(api_key=config['roboflow']['api_key'])
+
+finder = MatchNumberFinder(roboflow_api, "matchdetectionv2", 1)
+print(str(finder.detect_numbers('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\enhancedimages\\enhanced_image38.png')))
 
 
 
