@@ -62,7 +62,7 @@ class MatchNumberFinder:
 
         print(self.model.id)
 
-    def handle_over_the_limit_qual_number(self,numbered_result_list: List[ResultNumber], qual_number: int):
+    def handle_over_the_limit_match_number(self, numbered_result_list: List[ResultNumber], qual_number: int):
         if qual_number <= self.max_qual_number:
             return qual_number
         return convert_result_number_list_to_number(sort_numbered_results_list_by_x_value(numbered_result_list)[:-1])
@@ -72,7 +72,7 @@ class MatchNumberFinder:
         detection = self.detect_numbers('C:\\Users\\control\\PycharmProjects\\Auto-Queueing\\current_match_e.png')
         numbered_result_list : List[ResultNumber] = convert_detection_numbered_results(detection)
         qual_number: int = convert_result_number_list_to_number(sort_numbered_results_list_by_x_value(numbered_result_list))
-        return self.handle_over_the_limit_qual_number(numbered_result_list, qual_number)
+        return self.handle_over_the_limit_match_number(numbered_result_list, qual_number)
 
     def detect_numbers(self, image_path: str) -> List[Dict]:
         return self.model.predict(image_path, confidence=50, overlap=20)
