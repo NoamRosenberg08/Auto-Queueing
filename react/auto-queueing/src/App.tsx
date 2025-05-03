@@ -9,13 +9,13 @@ function App() {
   return (
     <>
       <MatchView
-        matchNumber={4590}
+        matchNumber={1}
         blueAlliance={[4590, 2230, 3211]}
         redAlliance={[11001, 11011, 20119]}
       />
 
       <MatchView
-        matchNumber={4590}
+        matchNumber={2}
         blueAlliance={[11011, 2230, 3211]}
         redAlliance={[4590, 11011, 20119]}
       />

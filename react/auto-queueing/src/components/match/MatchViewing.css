@@ -9,7 +9,8 @@
   padding: 40px 10px;
   text-align: center;
   font-weight: bold;
-  min-width: 60px;
+  min-width: 40px;
+  min-height: 65px;
   border-radius: 6px;
   color: black;
 }
@@ -33,6 +34,7 @@
   border-radius: 6px;
   padding: 8px 12px;
   margin: 0 5px;
+  min-width: 50px;
   color: black;
 }
 
@@ -75,4 +77,8 @@
 .highlighted {
   font-weight: bold;
   text-decoration: underline;
+}
+
+.spacer {
+  height: 20px;
 }
