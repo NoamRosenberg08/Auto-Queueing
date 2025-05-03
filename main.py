@@ -12,6 +12,7 @@ from mss.base import MSSBase
 import FRCEventsAPIHandler
 import MatchNumberFinder
 import MatchTimeFinder
+from flask_cors import CORS
 
 
 def load_json(path: str) -> Dict:
@@ -28,6 +29,7 @@ match_time: float = 0
 frc_events_api = FRCEventsAPIHandler.FRCEventsAPIHandler()
 team_qual_list = frc_events_api.get_qual_list("aaa", 4590)
 app = Flask(__name__)
+CORS(app)
 
 @staticmethod
 def should_queue(current_match: int, teams_match_list: List[int], matches_before_queue: int):
@@ -55,7 +57,7 @@ def get_qual_list():
 
 @app.route("/team/should_queue")
 def should_team_go_to_queue():
-    return jsonify({'should_queue': should_queue(match_number, team_qual_list.keys(), 2), "current_match": match_number})
+    return jsonify({'should_queue': str(should_queue(match_number, team_qual_list.keys(), 2)), "current_match": match_number})
 
 
 def update_match_info():

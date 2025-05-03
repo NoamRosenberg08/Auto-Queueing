@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import MatchView from "./components/match/MatchView";
-
+import QueueAlert from "./components/queue/QueueAlert";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -18,6 +18,7 @@ function App() {
         blueAlliance={[11011, 2230, 3211]}
         redAlliance={[4590, 11011, 20119]}
       />
+      <QueueAlert />
     </>
   );
 }
