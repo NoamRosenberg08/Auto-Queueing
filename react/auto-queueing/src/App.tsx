@@ -1,12 +1,11 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import TeamNumber from "./components/match/TeamNumber";
 
 function App() {
   const [count, setCount] = useState(0);
 
-  return <h1>hello</h1>;
+  return <TeamNumber teamNumber={4590} />;
 }
 
 export default App;
