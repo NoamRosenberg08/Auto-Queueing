@@ -1,5 +1,5 @@
 function TeamNumber({ teamNumber }: { teamNumber: number }) {
-  return <div className="team-number">{teamNumber}</div>;
+  return <div>{teamNumber}</div>;
 }
 
 export default TeamNumber;

@@ -1,0 +1,78 @@
+.match-view {
+  display: flex;
+  align-items: center;
+  color: black;
+}
+
+.match-number {
+  background-color: #ccc;
+  padding: 40px 10px;
+  text-align: center;
+  font-weight: bold;
+  min-width: 60px;
+  border-radius: 6px;
+  color: black;
+}
+
+.alliances {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: black;
+}
+
+.alliance {
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.team-box {
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0 5px;
+  color: black;
+}
+
+.alliance.filled {
+  opacity: 1;
+}
+
+.alliance.outlined {
+  background-color: transparent;
+}
+
+.blue-alliance.filled {
+  background-color: #cce9ff;
+  border: 2px solid #66bfff;
+}
+
+.blue-alliance.outlined {
+  border: 2px solid #66bfff;
+  background-color: gray;
+}
+
+.blue-team {
+  border: 2px solid #66bfff;
+}
+
+.red-alliance.filled {
+  background-color: #ffd6d6;
+  border: 2px solid #ff4d4d;
+}
+
+.red-alliance.outlined {
+  border: 2px solid #ff4d4d;
+  background-color: gray;
+}
+
+.red-team {
+  border: 2px solid #ff4d4d;
+}
+
+.highlighted {
+  font-weight: bold;
+  text-decoration: underline;
+}
