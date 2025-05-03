@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import TeamNumber from "./components/match/TeamNumber";
 import MatchView from "./components/match/MatchView";
 
 function App() {
@@ -10,7 +9,7 @@ function App() {
     <>
       <MatchView
         matchNumber={1}
-        blueAlliance={[4590, 2230, 3211]}
+        blueAlliance={[2230, 4590, 3211]}
         redAlliance={[11001, 11011, 20119]}
       />
 
