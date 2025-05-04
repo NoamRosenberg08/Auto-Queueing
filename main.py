@@ -2,7 +2,7 @@ import json
 import threading
 import time
 from threading import Thread
-from typing import Dict
+from typing import Dict, List
 
 import mss
 import roboflow
@@ -11,6 +11,8 @@ from mss.base import MSSBase
 
 import MatchNumberFinder
 import MatchTimeFinder
+from FRCEventsAPIHandler import FRCEventsAPIHandler
+from Match import Match
 
 
 def load_json(path: str) -> Dict:
@@ -23,6 +25,13 @@ roboflow_api: roboflow.Roboflow = roboflow.Roboflow(api_key=config['roboflow']['
 match_number: float = 0
 match_time: float = 0
 
+api_username = config['FRCEvents']['username']
+api_token = config['FRCEvents']['token']
+print(api_token)
+season_year = config['FRCEvents']['season']
+
+frc_api_handler: FRCEventsAPIHandler = FRCEventsAPIHandler(api_username, api_token, season_year)
+print(frc_api_handler)
 app = Flask(__name__)
 
 @app.route("/match")
@@ -36,6 +45,16 @@ def get_match_time():
 @app.route("/match/number")
 def get_match_number():
     return jsonify({"MatchNumber": match_number})
+
+@app.route("/schedule/team")
+def get_schedule_for_team():
+    return jsonify(convert_match_mist_to_dict_by_number(frc_api_handler.get_schedule_for_team(config['event_code'],config['team_number'])))
+
+def convert_match_mist_to_dict_by_number(match_list: List[Match]) ->  Dict[int, List]:
+    match_dict: Dict[int, List] = {}
+    for match in match_list:
+        match_dict[match.number] = match.teams
+    return match_dict
 
 
 def update_match_info():
