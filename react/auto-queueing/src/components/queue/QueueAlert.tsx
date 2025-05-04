@@ -7,7 +7,9 @@ function QueueAlert() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/team/should_queue");
+        const response = await fetch(
+          "http://localhost:5000/schedule/team/should_queue"
+        );
         const result = await response.json();
         setData(result); // Refresh the entire object with new data
       } catch (error) {
