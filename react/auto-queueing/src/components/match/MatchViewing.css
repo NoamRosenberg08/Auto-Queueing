@@ -12,7 +12,7 @@
   font-size: 35px;
   min-width: 80px;
   /* min-height: 60px; */
-  border-radius: 6px;
+  border-radius: 10px;
   color: black;
   min-height: 212px;
   margin-top: 9px;
@@ -29,7 +29,7 @@
 
 .alliance {
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   justify-content: space-around;
   min-width: 50px;
@@ -37,7 +37,7 @@
 }
 
 .team-box {
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 8px 12px;
   margin: 0 5px;
   min-width: 50px;
