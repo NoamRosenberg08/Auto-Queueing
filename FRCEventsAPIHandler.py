@@ -5,6 +5,8 @@ from typing import Dict, List
 import json
 import base64
 
+from Match import Match
+
 """
 Disctrict Codes:
 
@@ -69,6 +71,19 @@ class FRCEventsAPIHandler:
                 return True
         return False
 
+    def extract_teams_for_match(self, match: Dict):
+        teams : List[int] = []
+        for team in match['teams']:
+            teams.append(team['teamNumber'])
+        return teams
+
+    def filter_teams_schedule(self, teams_schedule : List[Dict]):
+        filtered_schedule: List[Match] = []
+
+        for match in teams_schedule:
+            filtered_schedule.append(Match(match['matchNumber'], self.extract_teams_for_match(match)))
+        return filtered_schedule
+
     def get_schedule_for_team(self, schedule : List[Dict], team_number: int) -> List[Dict]:
         '''
 
@@ -98,4 +113,4 @@ if __name__ == "__main__":
     # print(events)
     schdule = frc_api_handler.get_schedule_for_event('ISCMP')
     # print(schdule)
-    print(frc_api_handler.get_schedule_for_team(schdule, 4590))
+    print(frc_api_handler.filter_teams_schedule(frc_api_handler.get_schedule_for_team(schdule, 4590)))
