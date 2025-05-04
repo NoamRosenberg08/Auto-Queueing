@@ -1,0 +1,26 @@
+.box {
+  border: 1px solid #ccc;
+  padding: 16px;
+  width: 300px;
+  font-family: sans-serif;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.match-number {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.resting-time {
+  font-size: 18px;
+  padding: 8px;
+  color: black;
+  background-color: #e0ffe0;
+}
+
+.queueing-time {
+  background-color: #ffcccc;
+  color: red;
+  font-weight: bold;
+}
