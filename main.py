@@ -11,6 +11,7 @@ from mss.base import MSSBase
 
 import MatchNumberFinder
 import MatchTimeFinder
+from FRCEventsAPIHandler import FRCEventsAPIHandler
 
 
 def load_json(path: str) -> Dict:
@@ -23,6 +24,13 @@ roboflow_api: roboflow.Roboflow = roboflow.Roboflow(api_key=config['roboflow']['
 match_number: float = 0
 match_time: float = 0
 
+api_username = config['FRCEvents']['username']
+api_token = config['FRCEvents']['token']
+print(api_token)
+season_year = config['FRCEvents']['season']
+
+frc_api_handler: FRCEventsAPIHandler = FRCEventsAPIHandler(api_username, api_token, season_year)
+print(frc_api_handler)
 app = Flask(__name__)
 
 @app.route("/match")
@@ -37,6 +45,9 @@ def get_match_time():
 def get_match_number():
     return jsonify({"MatchNumber": match_number})
 
+@app.route("/schedule/team")
+def get_schedule_for_team():
+    return jsonify(frc_api_handler.get_schedule_for_team(config['event_code'],config['team_number']))
 
 def update_match_info():
     global match_time, match_number
