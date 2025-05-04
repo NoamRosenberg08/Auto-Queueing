@@ -3,6 +3,7 @@ import "./App.css";
 import MatchView from "./components/match/MatchView";
 import QueueAlert from "./components/queue/QueueAlert";
 import MatchList from "./components/match/MatchList";
+import TimeDisplay from "./components/time/TimeDisplay";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -10,7 +11,10 @@ function App() {
     <>
       <div className="main-container">
         <MatchList />
-        <QueueAlert />
+        <div>
+          <QueueAlert />
+          <TimeDisplay />
+        </div>
       </div>
     </>
   );
