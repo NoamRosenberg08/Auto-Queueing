@@ -1,10 +1,13 @@
 .box {
   border: 1px solid #ccc;
   padding: 16px;
-  width: 300px;
+  min-width: 300px;
+  min-height: 50px;
   font-family: sans-serif;
+  margin-top: 90px;
   margin: 20px auto;
   text-align: center;
+  border-radius: 10px;
 }
 
 .match-number {
@@ -13,7 +16,8 @@
 }
 
 .resting-time {
-  font-size: 18px;
+  font-size: 35px;
+  font-weight: bolder;
   padding: 8px;
   color: black;
   background-color: #e0ffe0;

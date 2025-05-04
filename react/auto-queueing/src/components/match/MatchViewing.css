@@ -6,35 +6,42 @@
 
 .match-number {
   background-color: #ccc;
-  padding: 40px 2px;
+  /* padding: 40px 2px; */
   text-align: center;
   font-weight: bold;
-  min-width: 40px;
-  min-height: 60px;
-  border-radius: 6px;
+  font-size: 35px;
+  min-width: 80px;
+  /* min-height: 60px; */
+  border-radius: 10px;
   color: black;
+  min-height: 212px;
+  margin-top: 9px;
 }
 
 .alliances {
-  margin-left: 10px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   color: black;
+  min-width: 50px;
 }
 
 .alliance {
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   justify-content: space-around;
+  min-width: 50px;
+  min-height: 80px;
 }
 
 .team-box {
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 8px 12px;
   margin: 0 5px;
   min-width: 50px;
+  font-size: 35px;
   color: black;
 }
 
