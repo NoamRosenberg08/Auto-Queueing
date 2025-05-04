@@ -84,13 +84,14 @@ class FRCEventsAPIHandler:
             filtered_schedule.append(Match(match['matchNumber'], self.extract_teams_for_match(match)))
         return filtered_schedule
 
-    def get_schedule_for_team(self, schedule : List[Dict], team_number: int) -> List[Dict]:
+    def get_schedule_for_team(self,event_code: str, team_number: int) -> List[Dict]:
         '''
 
-        :param schedule:
+        :param event_code:
         :param team_number:
         :return: List[Dict] - every element of the list is a match. List[0] = qual 1
         '''
+        schedule: List[Dict] = frc_api_handler.get_schedule_for_event(event_code)
         teams_schedule: List[Dict] = []
 
         for match in schedule:
@@ -111,6 +112,5 @@ if __name__ == "__main__":
     frc_api_handler = FRCEventsAPIHandler(api_username, api_token, season_year)
     events = frc_api_handler.get_event_list("ISR")
     # print(events)
-    schdule = frc_api_handler.get_schedule_for_event('ISCMP')
     # print(schdule)
-    print(frc_api_handler.filter_teams_schedule(frc_api_handler.get_schedule_for_team(schdule, 4590)))
+    print(frc_api_handler.filter_teams_schedule(frc_api_handler.get_schedule_for_team('ISCMP', 4590)))
