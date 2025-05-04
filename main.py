@@ -13,6 +13,8 @@ import FRCEventsAPIHandler
 import MatchNumberFinder
 import MatchTimeFinder
 from flask_cors import CORS
+from FRCEventsAPIHandler import FRCEventsAPIHandler
+from Match import Match
 
 
 def load_json(path: str) -> Dict:
@@ -25,17 +27,21 @@ roboflow_api: roboflow.Roboflow = roboflow.Roboflow(api_key=config['roboflow']['
 match_number: int = 0
 match_time: float = 0
 
+api_username = config['FRCEvents']['username']
+api_token = config['FRCEvents']['token']
+print(api_token)
+season_year = config['FRCEvents']['season']
 
-frc_events_api = FRCEventsAPIHandler.FRCEventsAPIHandler()
-team_qual_list = frc_events_api.get_qual_list("aaa", 4590)
+frc_api_handler: FRCEventsAPIHandler = FRCEventsAPIHandler(api_username, api_token, season_year)
+print(frc_api_handler)
 app = Flask(__name__)
 CORS(app)
 
 @staticmethod
-def should_queue(current_match: int, teams_match_list: List[int], matches_before_queue: int):
+def should_queue(current_match: int, teams_match_list: Dict[int, List], matches_before_queue: int):
     # return  current_match + 2 in teams_match_list or current_match + 1 in teams_match_list or current_match in teams_match_list
     for i in range(matches_before_queue + 1):
-        if current_match + i in teams_match_list:
+        if current_match + i in teams_match_list.keys():
             return True
     return False
 
@@ -51,13 +57,19 @@ def get_match_time():
 def get_match_number():
     return jsonify({"MatchNumber": match_number})
 
-@app.route("/team/qual_list")
-def get_qual_list():
-    return jsonify(str(frc_events_api.get_qual_list("iscmp", 49590)))
-
-@app.route("/team/should_queue")
+@app.route("/schedule/team/should_queue")
 def should_team_go_to_queue():
-    return jsonify({'should_queue': str(should_queue(match_number, team_qual_list.keys(), 2)), "current_match": match_number})
+    return jsonify({'should_queue': str(should_queue(match_number, convert_match_mist_to_dict_by_number(frc_api_handler.get_schedule_for_team(config['event_code'],config['team_number'])),config['matches_before_queue'])), "current_match": match_number})
+
+@app.route("/schedule/team")
+def get_schedule_for_team():
+    return jsonify(convert_match_mist_to_dict_by_number(frc_api_handler.get_schedule_for_team(config['event_code'],config['team_number'])))
+
+def convert_match_mist_to_dict_by_number(match_list: List[Match]) ->  Dict[int, List]:
+    match_dict: Dict[int, List] = {}
+    for match in match_list:
+        match_dict[match.number] = match.teams
+    return match_dict
 
 
 def update_match_info():
