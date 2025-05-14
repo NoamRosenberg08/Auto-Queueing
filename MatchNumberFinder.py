@@ -41,6 +41,8 @@ def convert_result_number_list_to_number(resulted_number_list: List[ResultNumber
     number: int = 0
     counter: int = 0
     resulted_number_list.reverse()
+    if len(resulted_number_list) == 0:
+        return -1
     for resulted_number in resulted_number_list:
         if resulted_number.number == 0:
             number *= 10

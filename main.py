@@ -83,11 +83,10 @@ def update_match_info():
 
     while True:
         screenshooter = mss.mss()
-        if match_time == 0:
-            match_number = match_number_finder.get_match_number()
+        match_number = match_number_finder.get_match_number()
         match_time = match_time_finder.get_match_time()
         print("Current match time:", match_time)
-        time.sleep(1)  # Sleep to avoid excessive CPU usage
+        # time.sleep(1)
 
 background_thread = threading.Thread(target=update_match_info, daemon=True)
 background_thread.start()
