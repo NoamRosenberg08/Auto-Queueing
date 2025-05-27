@@ -73,7 +73,7 @@ class FRCEventsAPIHandler:
         return self.get_request(url)['Schedule']
 
 
-    def is_team_in_match(self, match: dict, team_number: int):
+    def is_team_in_match(self, match: dict, team_number: int) -> bool:
         for team in match['teams']:
             if team['teamNumber'] == team_number:
                 return True
