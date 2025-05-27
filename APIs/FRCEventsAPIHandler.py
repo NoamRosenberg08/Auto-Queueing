@@ -7,6 +7,7 @@ import base64
 
 from flask import jsonify
 
+from APIs.IEventAPI import IEventAPI
 from Match import Match
 
 """
@@ -36,7 +37,7 @@ def convert_schedule_to_dict(teams_schedule : List[Match]):
         schedule_dict[match.number] = match.teams
     return schedule_dict
 
-class FRCEventsAPIHandler:
+class FRCEventsAPIHandler(IEventAPI):
     def __init__(self, api_username: str, api_token: str, season_year: int):
         self.base_url = "https://frc-api.firstinspires.org/v3.0/" + str(season_year) + "/"
         self.headers = {
