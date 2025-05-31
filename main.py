@@ -11,7 +11,7 @@ from mss.base import MSSBase
 import MatchNumberFinder
 import MatchTimeFinder
 from flask_cors import CORS
-from APIs.FRCEventsAPIHandler import FRCEventsAPIHandler
+from APIs.FRCEventsAPI import FRCEventsAPIHandler
 from Match import Match
 
 
